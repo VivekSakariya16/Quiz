@@ -9,19 +9,18 @@
 <body>
     <center>
     <form name="f1" action="" method="post">
-        <h1>Please choose the number of textboxes.</h1>
         <select id="subject" name="subject"> 
             <?php
+                require('db.php');
                 session_start(); 
-                echo $_SESSION['batch_x'];
                 $batch=$_SESSION['batch_x'];
-                echo $batch;
-                $q = "SELECT subject FROM quiz WHERE batch='$batch' ";
+                $q = "SELECT bs_id, subject FROM `quiz` WHERE batch='$batch' ";
                 $result = mysqli_query($con,$q) or die(mysqli_error());
                 $rows = mysqli_num_rows($result);
                 while($row = mysqli_fetch_array($result)){
-                    $subject = $row['subject'];?>
-                    <option value='$subject'>$subject</option>
+                    $subject = $row['subject'];
+                    $bs_id = $row['bs_id'];?>
+                    <option value='<?php echo $bs_id ?>'><?php echo $subject, " - " ,$bs_id ?></option>
                     <?php
                 }
             ?>
@@ -35,9 +34,9 @@
 </html>
 <?php
     if(isset($_POST['go'])){
-        $subject=$_POST['subject'];
-        $_SESSION['subject']=$subject;
-        $_SESSION['batch']=$batch;
+        $quiz=$_POST['subject'];
+        $_SESSION['bs_id']= $quiz;
+        $_SESSION['batch']= $batch;
         header("location:quizpage.php");
         exit();
     }
