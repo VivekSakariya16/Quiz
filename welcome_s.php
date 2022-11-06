@@ -32,4 +32,7 @@ session_start();
 </body>
 </html>
 
-<!-- -->
+<?php
+    $res = $_SESSION['score'];
+    echo '<center><h1>Your Score is: '.$res.'</h1></center>';
+?>
